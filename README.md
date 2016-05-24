@@ -1,60 +1,31 @@
-# sbt launcher module
 
-This project is the componetized sbt launcher.   It can be used to launch many Maven/Ivy deployed applications
-and utilities, and forms the basis of [sbt](https://github.com/sbt/sbt),
-[activator](https://github.com/typesafehub/activator) and [conscript](https://github.com/n8han/conscript)'s launching
-abilities.
+# Sbt Launcher Module For Oildex IntelliJ Support
 
-For the full set of documentation, read: http://www.scala-sbt.org/0.13/docs/Sbt-Launcher.html
-.
+This project is a fork of the sbt/launcher project that allows Oildex personnel to run activator or sbt projects that require the Oildex SbtGitUtils scala source file that is pulled down as a dependency through the $HOME/opt/bin/sbtGitActivator script.
 
+The only two additions to the source code are an sbt/sbt.boot.properties file that matches IntelliJ's scala plugin sbt-launch.jar version, and a few additional lines added to the source file
 
-## Rebundling
+# How To Build The sbt-launch JAR:
 
-This project provides two modules for general use:
-
-1. A library for interacting with Launcher features as a launched application, or for defining a launched Server.
-2. A minimal JAR that can be used to lookup your application, using Ivy, and load/run it.
-
-This minmal JAR file is designed to be:
-
-* Less than 1MB in size
-* Able to launch any application on the JVM
-* Isolate classloaders and allow re-use of Scala library classloader for Scala applications.
-* Rebundled as a "wrapper" or "launcher" for your specific project.
-
-To rebundle the JAR for your project, first you'll need a launcher properties file (specified [here](http://www.scala-sbt.org/0.13/docs/Launcher-Configuration.html)).
-
-You can test your launch configuration file by running:
-
+1. Set the JDK to a 1.7 JDK (sbt versions less that 1.0.x require a 1.7 JVM to compile):
 ```
-java -jar <raw launch jar> @<my launcher properties file>
+    $ setJdk 1.7
 ```
 
-Once you've verified your properties file is complete you can inject your launcher properties file into the "launch jar"
-as the file `sbt/sbt.boot.properties`.   The launcher will look for this file in lieu of any command-line arguments to
-launch an application.
-
-
-If you've not done this correctly, you will see the following:
-
+2. Build the sbt-launch jar:
 ```
-$ java -jar target/sbt-launch-1.0.0-SNAPSHOT.jar
-Error during sbt execution: Could not finder sbt launch configuration.  Searched classpath for:
-	/sbt.boot.properties0.13.7
-	/sbt/sbt.boot.properties0.13.7
-	/sbt.boot.properties0.13
-	/sbt/sbt.boot.properties0.13
-	/sbt.boot.properties
-	/sbt/sbt.boot.properties
+    $ sbt clean compile package
 ```
 
+# How To Open An IntelliJ sbt Project Using The New sbt-launch JAR:
 
-Additionally, we recommend renaming your bundled launch jar for your application (e.g. activator calls theirs
-"activator-launch-<version>.jar").
+1. If the project was previous open up with IntelliJ and is currently having problems opening, delete any .idea directory or *.ipr files from the project's root directory
+
+2. Open the root directory containing the project in IntelliJ.
+
+3. Set the "SBT Project" settings as usual, but also expand the "Global SBT settings" section and set the "Launcher (sbt-launcher.jar)" value to point to the sbt-launcher.jar file you built above in the section "How To Build The sbt-launch JAR". For my machine, this ended up being something like "/Users/bbunch/git_repos/bbunch/launcher/target/sbt-launch-1.0.0-SNAPSHOT.jar".
+
+4. The project should now load successfully in IntelliJ from this point forward.
 
 
-# License
-
-This software is under a modified BSD license.
-
+See the original sbt launcher module README.md file here --> https://github.com/sbt/launcher/blob/0.13/README.md
