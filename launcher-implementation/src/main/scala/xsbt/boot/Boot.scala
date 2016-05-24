@@ -4,10 +4,14 @@
 package xsbt.boot
 
 import java.io.File
+import scala.sys.process._
 
 // The entry point to the launcher
 object Boot {
   def main(args: Array[String]) {
+
+    checkoutSbtGitUtils();
+
     val config = parseArgs(args)
     // If we havne't exited, we set up some hooks and launch
     System.clearProperty("scala.home") // avoid errors from mixing Scala versions in the same JVM
@@ -55,4 +59,11 @@ object Boot {
     }
   private def exit(code: Int): Nothing =
     System.exit(code).asInstanceOf[Nothing]
+
+  private def checkoutSbtGitUtils(): Int = {
+    val optBinDirPath = s"${System.getProperty("user.home")}/opt/bin"
+    val optBinDir = new File(optBinDirPath)
+    val sbtGitActivatorScript = new File(optBinDir, "sbtGitActivator")
+    s"${sbtGitActivatorScript.getAbsolutePath()}".!
+  }
 }
