@@ -1,9 +1,9 @@
 
 # Sbt Launcher Module For Oildex IntelliJ Support
 
-This project is a fork of the sbt/launcher project that allows Oildex personnel to run activator or sbt projects that require the Oildex SbtGitUtils scala source file that is pulled down as a dependency through the $HOME/opt/bin/sbtGitActivator script.
+This project is a fork of the sbt/launcher project that allows Oildex personnel to run activator or sbt projects that require the Oildex SbtGitUtils scala source class.
 
-The only two additions to the source code are an sbt/sbt.boot.properties file that matches IntelliJ's scala plugin sbt-launch.jar version, and a few additional lines added to the source file
+The only two additions to the source code are an sbt/sbt.boot.properties file that matches IntelliJ's scala plugin sbt-launch.jar version, and a few additional lines added to the source file launcher-implementation/src/main/scala/xsbt/boot/Boot.scala
 
 # How To Build The sbt-launch JAR:
 
